@@ -7,7 +7,6 @@ const helloMiddleware: RequestHandler = async (req, res, next) => {
 };
 
 helloRouter.get("/world", helloMiddleware, (req, res) => {
-  console.log("sa");
   res.send("Hello World!");
 });
 
