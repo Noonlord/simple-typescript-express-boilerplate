@@ -1,0 +1,22 @@
+name: Deploy to Piku
+on: push
+jobs:
+  repo-sync:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: '0'
+        ref: 'piku'
+    - name: Install SSH key
+      uses: shimataro/ssh-key-action@v2
+      with:
+         key: ${{ secrets.SSH_PRIVATE_KEY }}
+         name: id_rsa
+         known_hosts: ${{ secrets.KNOWN_HOSTS }}
+    - run: |
+        git remote add piku piku@noonlordhost.com:simple-ts
+        git config --global user.email "mymmmym22@gmail.com"
+        git config --global user.name "noonlord"
+        git checkout piku
+        git push -u piku piku
