@@ -23,12 +23,12 @@ interface ImageResponse {
 
 export function ipfsToUrl(ipfsUrl: string): string {
   if (ipfsUrl.includes("ipfs://")) {
-    return ipfsUrl.replace("ipfs://", "http://127.0.0.1:9090/ipfs/");
+    return ipfsUrl.replace("ipfs://", "http://127.0.0.1:8080/ipfs/");
     //https://gateway.pinata.cloud/ipfs/QmVxZFeLHtbrdtFabb46ToSvegpKyva1jzTkR61a8uM7qT
   } else if (ipfsUrl.includes("https://gateway.pinata.cloud/ipfs")) {
-    return ipfsUrl.replace("https://gateway.pinata.cloud/ipfs/", "http://127.0.0.1:9090/ipfs/");
+    return ipfsUrl.replace("https://gateway.pinata.cloud/ipfs/", "http://127.0.0.1:8080/ipfs/");
   } else if (ipfsUrl.includes("https://ipfs.io")) {
-    return ipfsUrl.replace("https://ipfs.io", "http://127.0.0.1:9090");
+    return ipfsUrl.replace("https://ipfs.io", "http://127.0.0.1:8080");
   }
   return ipfsUrl;
 }
