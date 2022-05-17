@@ -23,10 +23,14 @@ interface ImageResponse {
 
 export function ipfsToUrl(ipfsUrl: string): string {
   if (ipfsUrl.includes("ipfs://")) {
-    return ipfsUrl.replace("ipfs://", "https://ipfs.io/ipfs/");
-  } else {
-    return ipfsUrl;
+    return ipfsUrl.replace("ipfs://", "https://cloudflare-ipfs.com/ipfs/");
+    //https://gateway.pinata.cloud/ipfs/QmVxZFeLHtbrdtFabb46ToSvegpKyva1jzTkR61a8uM7qT
+  } else if (ipfsUrl.includes("gateway.pinata.cloud/ipfs")) {
+    return ipfsUrl.replace("gateway.pinata.cloud/ipfs/", "cloudflare-ipfs.com/ipfs/");
+  } else if (ipfsUrl.includes("ipfs.io")) {
+    return ipfsUrl.replace("ipfs.io", "cloudflare-ipfs.com");
   }
+  return ipfsUrl;
 }
 
 export async function getImageUrl(assetId: number): Promise<string> {
@@ -38,6 +42,7 @@ export async function getImageUrl(assetId: number): Promise<string> {
 
 export async function getContentType(url: string): Promise<string> {
   const response = await axios.head(url);
+  console.log(response.headers["content-type"]);
   return response.headers["content-type"];
 }
 

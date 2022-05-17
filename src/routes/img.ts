@@ -13,14 +13,18 @@ imgRouter.get("/:id", async (req, res) => {
   } else {
     const url = await getImageUrl(Number(id));
     console.log(url);
-    const resp = await axios.get(url, { responseType: "arraybuffer" });
-    await sharp(resp.data)
-      .resize(400)
-      .jpeg({ quality: 75 })
-      .toFile("./img/" + id + ".jpg");
-    const fPath = path.resolve(__dirname + "../../../img/" + id + ".jpg");
-    writeToDb(Number(id), fPath);
-    res.sendFile(fPath);
+    try {
+      const resp = await axios.get(url, { responseType: "arraybuffer" });
+      await sharp(resp.data)
+        .resize(400)
+        .jpeg({ quality: 75 })
+        .toFile("./img/" + id + ".jpg");
+      const fPath = path.resolve(__dirname + "../../../img/" + id + ".jpg");
+      writeToDb(Number(id), fPath);
+      res.sendFile(fPath);
+    } catch (e) {
+      res.status(500).send("Error :(");
+    }
   }
 });
 
